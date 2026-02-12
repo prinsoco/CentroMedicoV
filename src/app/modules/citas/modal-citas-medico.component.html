@@ -1,0 +1,54 @@
+<div>
+    <!--<div *ngIf="!finCargaEstados" class="body-stepper">
+        <mat-spinner  style="margin:0 auto;" ></mat-spinner>
+        <h2>Cargando...</h2>
+    </div>-->
+    <div>
+        <div class="seccion-table">
+            <div class="p3 ft-section-title ft-section-title-0">
+                <div>
+                    <p>Datos del Médico</p>
+                    <span></span>
+                    <!-- [ngStyle]="{'background-color': tenantData.colorPrimario}" -->
+                </div>
+            </div>
+            <div class="row-modal">
+                <div class="col-md-12">
+                    <table class="sections-table">
+                        <tr>
+                            <td><p class="p4 ft-table-row">Nombres: <span>{{this.dataInfoCitasHorario.nombres}}</span></p></td>
+                        </tr>
+                        <tr>
+                            <td><p class="p4 ft-table-row">Especialidad: <span>{{this.dataInfoCitasHorario.descEspecialidad}}</span></p></td>
+                        </tr>
+                        <tr>
+                            <td><p class="p4 ft-table-row">Horario Laboral: <span>{{this.dataInfoCitasHorario.horario}}</span></p></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="row-modal">
+                <div class="seccion-table">
+                    <form [formGroup]="dataForm">
+                       <div class="row-modal">
+                        <div class="form-group">
+                            <label>Horarios</label>
+                            <select class="form-control" formControlName="horario" required>
+                            <option value="0">-- Seleccione --</option>
+                            <option *ngFor="let item of horarioLaboral" [value]="item.idRango">
+                                {{ item.hora | date:'HH:mm' }}
+                            </option>
+                            </select>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="seccion sections-table">
+            <div class="modal-footer">
+                <button type="button"  class="btn btn-primary" (click)="validarCita()">Aceptar</button>          
+            </div>
+        </div>
+    </div>
+</div>

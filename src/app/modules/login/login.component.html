@@ -1,0 +1,36 @@
+<ngx-spinner   
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="white"
+  type="ball-scale-multiple">
+  <h2 style="color: white;">{{textSpinner}}</h2>
+</ngx-spinner>
+
+<div class="login-container">
+  <div class="login-card">
+    <h2 class="title">Login</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+               <input type="email" formControlName="emailuser" placeholder="Ingresar email" />
+        <div *ngIf="submitted && emailError > 0" class="error">
+          <small *ngIf="emailRequerido">Email es requerido</small>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" formControlName="password" placeholder="Ingresar clave" minlength="6" />
+        <div *ngIf="submitted && passError > 0" class="error">
+          <small *ngIf="passRequerido">Clave es requerida</small>
+          <small *ngIf="passMinLen">Minimo 6 caracteres</small>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-login">Login</button>
+    </form>
+
+    <div class="links">
+      <a routerLink="/pages/registro">Register</a> | <a routerLink="/admin/login">Login Administrativo</a>
+    </div>
+  </div>
+</div>

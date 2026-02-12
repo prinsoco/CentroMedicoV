@@ -1,0 +1,84 @@
+<ngx-spinner   
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="white"
+  type="ball-scale-multiple">
+  <h2 style="color: white;">{{textSpinner}}</h2>
+</ngx-spinner>
+
+<div class="login-container">
+  <div class="login-card">
+    <div *ngIf="!registroExitoso">
+    <h2 class="title">Registro</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+               <input type="text" formControlName="nombre" placeholder="Nombres" />
+        <div *ngIf="submitted && emailError > 0" class="error">
+          <small *ngIf="nombreRequerido">Nombre es requerido</small>
+        </div>
+      </div>
+      <div class="form-group">
+               <input type="text" formControlName="apellido" placeholder="Apellidos" />
+        <div *ngIf="submitted && apellidoError > 0" class="error">
+          <small *ngIf="apellidoRequerido">Apellidos es requerido</small>
+        </div>
+      </div>
+      <div class="form-group">
+               <input type="text" formControlName="identificacion" placeholder="Identificación"  minlength="10"/>
+        <div *ngIf="submitted && identError > 0" class="error">
+          <small *ngIf="identRequerido">Identificación es requerida</small>
+          <small *ngIf="identMinLen">Identificación no contiene todos los caracteres</small>
+        </div>
+      </div>
+      <div class="form-group">
+               <input type="number" formControlName="edad" placeholder="Edad" />
+        <div *ngIf="submitted && edadError > 0" class="error">
+          <small *ngIf="edadRequerido">Edad es requerida</small>
+        </div>
+      </div>
+      <div class="form-group">
+               <input type="text" formControlName="celular" placeholder="Celular" />
+        <div *ngIf="submitted && celError > 0" class="error">
+          <small *ngIf="celRequerido">Celular es requerida</small>
+        </div>
+      </div>
+      <div class="form-group">
+               <input type="email" formControlName="emailuser" placeholder="Email" />
+        <div *ngIf="submitted && emailError > 0" class="error">
+          <small *ngIf="emailRequerido">Email es requerido</small>
+        </div>
+      </div>
+      <div class="form-group">
+        <input type="password" formControlName="password" placeholder="Clave" minlength="8" pattern="^[a-zA-Z0-9]+$" />
+        <div *ngIf="submitted && passError > 0" class="error">
+          <small *ngIf="passRequerido">Clave es requerida</small>
+          <small *ngIf="passMinLen">Minimo 8 caracteres</small>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-login">Registrar</button>
+    </form>
+
+    </div>
+
+    <div *ngIf="registroExitoso">
+      <h2 class="title" style="text-align: center;margin-bottom: 1rem;">Registro exitoso</h2>
+
+      <div class="confirmation-message" style="text-align: center;margin: 20px 0;color: #555;">
+        <p style="margin-bottom: 10px;">
+          ✅ <strong>Gracias por tu registro.</strong>
+        </p>
+        <p style="margin-bottom: 10px;">
+          Por favor verifica tu correo electrónico para confirmar tu registro.
+        </p>
+        <p class="note" style="font-size: 13px;color: #888;">
+          📧 Si no encuentras el correo, revisa la bandeja de spam.
+        </p>
+      </div>
+
+      <div class="links">
+        <a routerLink="/user/login">Ir al Login</a>
+      </div>
+    </div>
+  </div>
+</div>

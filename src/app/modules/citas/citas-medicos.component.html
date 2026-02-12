@@ -1,0 +1,107 @@
+<div class="main-content">
+<div class="row">
+  <div class="col-md-12">
+    <div class="card card-user">
+      <div class="card-body">
+          <form [formGroup]="filtrarTableForm">
+           <div class="row">
+            <div class="col-md-3 pr-1">
+              <div class="form-group">
+                <label>Especialidad</label>
+                <select class="form-control form-control-select" formControlName="especialidad" (change)="onItemSelectEspecialidad($event)">
+                  <option value="0">-- Seleccione --</option>
+                  <option value="-1">-- Todas --</option>
+                  <option *ngFor="let item of especialidades" [value]="item.especialidadId">
+                    {{ item.descripcion }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-3 pl-1">
+              <div class="form-group">
+                <label>Médicos</label>
+                <select class="form-control form-control-select" formControlName="medico">
+                  <option value="0">-- Seleccione --</option>
+                  <option *ngFor="let item of medicos" [value]="item.medicoId">
+                    {{ item.nombres + ' ' + item.apellidos }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-3 pl-1">
+              <div class="form-group">
+                <label>Pacientes</label>
+                <ng-multiselect-dropdown
+                    [placeholder]="'-- Seleccione --'"
+                    formControlName="paciente"
+                    [settings]="dropdownSettingsMultiplePaciente"
+                    [(ngModel)]="pacienteSeleccionados"
+                    [data]="pacientes"
+                    (onSelect)="onItemSelectEspecialidad($event)"
+                    [disabled]="disabledPaciente">
+                  </ng-multiselect-dropdown>
+                <input type="text" formControlName="pacienteInfo" class="form-control" *ngIf="this.mostrarPaciente == true">
+              </div>
+            </div>
+            
+            <div class="col-md-3 pl-1" style="text-align: right !important;">
+              <div class="form-group">
+                  <button class="btn btn-info" (click)="cargarDatosActualizar()"><span class="btn-label"><i class="nc-icon nc-refresh-69"></i></span> Actualizar </button>
+                  <button class="btn btn-warning" (click)="cleanFilters()"><span class="btn-label" ><i class="nc-icon nc-simple-remove"></i></span> Limpiar </button>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="row">
+            <div class="col-md-12 pr-1">
+              <full-calendar [options]="calendarOptions" style="background-color: #FFFFFF;">
+        <!--<ng-template #dayCellContent let-arg>
+          <div class="dia-container">
+            <div *ngFor="let doc of doctores"
+                class="doctor-card"
+                (click)="abrirModal(doc, arg.dateStr)">
+              <img [src]="doc.foto">
+              <div class="info">
+                <strong>{{ doc.nombre }}</strong>
+                <span>{{ doc.especialidad }}</span>
+                <i class="fa fa-plus-circle"></i>
+              </div>
+            </div>
+          </div>
+        </ng-template>-->
+      </full-calendar>
+            </div>
+        </div>
+      </div>
+  </div>
+</div>
+
+<ng-template #modalAsignarCita let-modal>
+    <!--[ngStyle]="{'background-color': dataIntermediarios.primario}"-->
+    <div class="modal-header" style="display: flex !important;">
+      <h3 class="modal-title" style="margin-bottom: -0.4em;" id="editUserLabel">Asignar Cita</h3>
+      <button type="button" class="btn-close" (click)="modal.dismiss('Cross click')" aria-label="Close">   
+      </button>
+    </div>
+  
+    <div class="modal-body" style="padding: 20px 10px !important;">
+       <app-modal-citas  [dataInfoCitasHorario]="dataInfoCitasHorario"></app-modal-citas>
+    </div>
+</ng-template>
+
+<ng-template #modalConfirmarCita let-modal>
+  <div class="modal-header">
+    <h2 class="modal-title" style="margin-bottom: -0.4em;">Confirmación nueva cita</h2>
+    <button type="button" class="btn-close" (click)="closeBtnClick()" aria-label="Close"> </button>
+  </div>
+
+  <div class="modal-body">
+    ¿Está seguro que desea cancelar la cita actual y agendar la cita con el nuevo horario?
+  </div>
+  <div class="modal-footer">
+      <button type="button"  class="btn btn-cancel text-white me-1" (click)="closeBtnClick()">Cancelar</button>
+    <button type="button"  class="btn btn-primary" (click)="asignMcaActivo()">Confirmar</button>
+
+  </div>
+</ng-template>
+</div>

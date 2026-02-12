@@ -1,0 +1,123 @@
+<div class="main-content">
+<ngx-spinner   
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="white"
+  type="ball-scale-multiple">
+  <h2 style="color: white;">{{textSpinner}}</h2>
+</ngx-spinner>
+
+<div [@openClose]="flagViewCards ? 'open' : 'closed'">
+<div class="row" *ngIf="flagViewCards">
+  <div class="col-md-12">
+    <div class="card card-user">
+      <div class="card-body">
+          <form [formGroup]="filtrarTableForm">
+           <div class="row">
+            <div class="col-md-2 pr-1">
+              <div class="form-group">
+                <label>Especialidad</label>
+                <select class="form-control form-control-select" formControlName="especialidad" (change)="onItemSelectEspecialidad($event)">
+                  <option value="0">-- Seleccione --</option>
+                  <option value="-1">-- Todas --</option>
+                  <option *ngFor="let item of listEspecialidad" [value]="item.especialidadId">
+                    {{ item.descripcion }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-3 pl-1">
+              <div class="form-group">
+                <label>Médicos</label>
+                <select class="form-control form-control-select" formControlName="medico">
+                  <option value="0">-- Seleccione --</option>
+                  <option *ngFor="let item of listMedicos" [value]="item.medicoId">
+                    {{ item.nombres + ' ' + item.apellidos }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-2 pl-1">
+              <div class="form-group">
+                <label>Fecha Inicio</label>
+                <input 
+                  formControlName="fechaInicio"
+                  type="date"
+                  class="form-control form-control-select">
+              </div>
+            </div>
+            <div class="col-md-2 pl-1">
+              <div class="form-group">
+                <label>Fecha Fin</label>
+                <input 
+                  formControlName="fechaFin"
+                  type="date"
+                  class="form-control form-control-select">
+              </div>
+            </div>
+            <div class="col-md-3 pl-1" style="text-align: right !important;">
+              <div class="form-group">
+                  <button class="btn btn-info" [disabled]="fechaInvalida" (click)="cargarDatosActualizar()"><span class="btn-label"><i class="nc-icon nc-refresh-69"></i></span> Actualizar </button>
+                  <button class="btn btn-warning" (click)="cleanFilters()"><span class="btn-label" ><i class="nc-icon nc-simple-remove"></i></span> Limpiar </button>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="row">
+            <div class="col-md-12 pr-1">
+             <div id="datatable_wrapper" class="dataTables_wrapper dt-bootstrap4 table-responsive">
+               <div class="row">
+                  <div class="col-sm-12">
+                     <table cellspacing="0" class="table table-striped table-bordered dataTable" id="datatable" width="100%" role="grid" aria-describedby="datatable_info" style="width: 100%;">
+                        <thead>
+                           <tr role="row">
+                              <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 113px;">{{this.tipoPerfil === "M"  ? "Paciente" : "Médico"}}</th>
+                              <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 129px;">Especialidad</th>
+                              <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 129px;">Fecha Cita</th>
+                              <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 129px;">Hora Cita</th>
+                              <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 60px;">Estado Cita</th>
+                              <th class="disabled-sorting text-right sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Actions: activate to sort column ascending" style="width: 45px;">Acción</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr *ngFor="let dto of filterArray | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                 <td>{{ this.tipoPerfil === "M"  ? dto.paciente : dto.medico }} </td>
+                                 <td>{{ dto.especialidad }} </td>
+                                 <td>{{ regresaFechaLocal(dto.fechaCita) }} </td>
+                                 <td>{{ regresaHoraLocal(dto.fechaCita) }} </td>
+                                 <td>{{ dto.descEstadoCita }} </td>
+                                 <td class="text-right">
+                                 <button *ngIf="this.tipoPerfil == 'M'" class="btn btn-success btn-icon btn-sm " rel="tooltip" type="button" data-original-title="" title="Atender Cita" (click)="showForm(dto, 'atender')"><i class="fa fa-edit"></i></button>
+                                 <button *ngIf="this.tipoPerfil == 'P'" class="btn btn-success btn-icon btn-sm " rel="tooltip" type="button" data-original-title="" title="Ver Cita" (click)="abrirModalInfoCita(dto)"><i class="fa fa-edit"></i></button>
+                              </td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-sm-12 col-md-5">
+                     <div class="dataTables_info" id="datatable_info" role="status" aria-live="polite">Mostrando 1 a 10 de {{ totfilas }} registros</div>
+                  </div>
+                  <div class="col-sm-12 col-md-7">
+                     <div class="dataTables_paginate paging_full_numbers" id="datatable_paginate" *ngIf="filterArray">
+                        <ngb-pagination [(page)]="page" [maxSize]="8" [pageSize]="pageSize" [collectionSize]="filterArray.length"></ngb-pagination>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            </div>
+        </div>
+      </div>
+  </div>
+</div>
+</div>
+
+
+<div [@openClose]="flagEditView ? 'open' : 'closed'">
+  <div *ngIf="flagEditView">
+   <app-form-atencion [breadcumb]="breadcumb" [action]="action" [data]="data"
+      (flagViewCards)="viewCards($event)"></app-form-atencion>
+  </div>
+</div>
+</div>

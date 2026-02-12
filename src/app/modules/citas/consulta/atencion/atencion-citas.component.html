@@ -1,0 +1,179 @@
+<div class="main-content">
+<div class="row">
+  <div class="col-md-12">
+    <div class="card card-user">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-md-6 pr-1">
+            <div class="form-group">
+              <h5 class="card-title">{{ titleForm }}</h5>
+              </div>
+              </div>
+              <div class="col-md-6 pr-1" style="text-align: right;">
+                <div class="form-group">
+                  <ng-container *ngIf="atenderCita === 'ASIG'">
+                  <button class="btn btn-info" (click)="actualizarDataFlujo('PROC')"> Atender Cita </button>
+                  <button class="btn btn-warning" (click)="viewCards()"> Cancelar </button>
+                </ng-container>
+                  <button class="btn btn-success" *ngIf="atenderCita === 'PROC'" (click)="actualizarDataFlujo('ATEN')"> Terminar Cita </button>
+                  <button class="btn btn-info" *ngIf="atenderCita === 'ATEN'" (click)="viewCardsReload()"> Regresar </button>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+      <div class="card-body">
+          <!-- ===== TABS ===== -->
+<ul class="tabs-container">
+  <li
+    class="tab-item"
+    [class.active]="activeTab === 1"
+    (click)="cambiarTab(1)">
+    Datos Personales
+  </li>
+
+  <li
+    class="tab-item"
+    [class.active]="activeTab === 2"
+    [class.disabled]="!puedeNavegar(2)"
+    (click)="cambiarTab(2)">
+    Diagnóstico y Receta
+  </li>
+
+  <li
+    class="tab-item"
+    [class.active]="activeTab === 3"
+    [class.disabled]="!puedeNavegar(3)"
+    (click)="cambiarTab(3)">
+    Historial Clínico
+  </li>
+</ul>
+
+<!-- ===== CONTENIDO ===== -->
+<div class="tab-content">
+
+  <!-- TAB 1: DATOS PACIENTE -->
+  <div *ngIf="activeTab === 1">
+    <form [formGroup]="pacienteForm">
+            <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Nombres</label>
+                <input type="text" formControlName="nombres" class="form-control" placeholder="Nombres">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Apellidos</label>
+                <input type="text" formControlName="apellidos" class="form-control" placeholder="Apellidos">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Identificacion</label>
+                <input type="text" maxlength="10" maxlength="10" [maxLength]="10" formControlName="identificacion" (keypress)="soloNumeros($event)" class="form-control" placeholder="Identificación">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Email</label>
+                <input type="text" formControlName="email" class="form-control" placeholder="Email">
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>Edad</label>
+                <input type="text" maxlength="2" maxlength="2" [maxLength]="2" (keypress)="soloNumeros($event)" formControlName="edad" class="form-control" placeholder="Edad">
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Teléfono</label>
+                <input type="text" maxlength="7" maxlength="7" [maxLength]="7" formControlName="telefono" (keypress)="soloNumeros($event)" class="form-control" placeholder="Teléfono">
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Celular</label>
+                <input type="text" maxlength="10" maxlength="10" [maxLength]="10" (keypress)="soloNumeros($event)" formControlName="celular" class="form-control" placeholder="Celular">
+              </div>
+            </div>
+          </div>
+        </form>
+
+         <div *ngIf="historialCargado" class="row">
+            <div class="col-md-12 pr-1">
+             
+             <div id="datatable_wrapper_atencion" class="dataTables_wrapper dt-bootstrap4 table-responsive">
+               <div class="row">
+                  <div class="col-sm-12">
+                     <table cellspacing="0" class="table table-striped table-bordered dataTable" id="datatable" width="100%" role="grid" aria-describedby="datatable_info" style="width: 100%;">
+                        <thead>
+                           <tr role="row">
+                              <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 113px;">HistorialId</th>
+                              <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 129px;">Fecha Historial</th>
+                              <th class="disabled-sorting text-right sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Actions: activate to sort column ascending" style="width: 45px;">Acción</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr *ngFor="let dto of dataArrayHistorial | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                 <td>{{ validarlogId(dto.historialId) }} </td>
+                                 <td>{{ validarlogFecha(dto.fechaCreacion) }} </td>
+                                 <td class="text-right">
+                                 <button class="btn btn-success btn-icon btn-sm " rel="tooltip" type="button" data-original-title="" title="Ver Historial"><i class="fa fa-edit"></i></button>
+                              </td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-sm-12 col-md-5">
+                     <div class="dataTables_info" id="datatable_info" role="status" aria-live="polite">Mostrando 1 a 10 de {{ totFilasHistorial }} registros</div>
+                  </div>
+                  <div class="col-sm-12 col-md-7">
+                     <div class="dataTables_paginate paging_full_numbers" id="datatable_paginate" *ngIf="dataArrayHistorial">
+                        <ngb-pagination [(page)]="page" [maxSize]="8" [pageSize]="pageSize" [collectionSize]="dataArrayHistorial.length"></ngb-pagination>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            </div>
+        </div>
+  </div>
+
+  <!-- TAB 2: RECETA -->
+   <div *ngIf="activeTab === 2">
+
+      <div class="mb-3">
+        <label>Diagnóstico</label>
+        <angular-editor [(ngModel)]="htmlContentDiagnostico" id="diagnostico" class="alto-editor" placeholder="Escribe aquí..."></angular-editor>
+
+      </div>
+
+      <div class="mb-3">
+        <label>Receta</label>
+        <angular-editor [(ngModel)]="htmlContentReceta" [ngClass]="alto-editor" id="receta" class="alto-editor" placeholder="Escribe aquí..."></angular-editor>
+      </div>
+
+  </div>
+
+  <!-- TAB 3: HISTORIAL CLÍNICO -->
+  <div *ngIf="activeTab === 3">
+     <ng-container>
+   
+    </ng-container>
+  </div>
+
+</div>
+        <div class="row">
+            <div class="col-md-12 pr-1">
+             
+            </div>
+        </div>
+      </div>
+  </div>
+</div>
+</div>

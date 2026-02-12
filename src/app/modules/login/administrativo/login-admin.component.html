@@ -1,0 +1,49 @@
+<ngx-spinner   
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="white"
+  type="ball-scale-multiple">
+  <h2 style="color: white;">{{textSpinner}}</h2>
+</ngx-spinner>
+
+<div class="login-container">
+  <div class="login-card">
+    <h2 class="title">Login</h2>
+    <form [formGroup]="loginFormAd" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Email</label>
+               <input type="email" formControlName="emailuser" placeholder="Ingresar email" />
+         <div *ngIf="submitted && emailError > 0" class="error">
+          <small *ngIf="emailRequerido">Email es requerido</small>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" formControlName="password" placeholder="Ingresar clave" />
+        <div *ngIf="submitted && passError > 0" class="error">
+          <small *ngIf="passRequerido">Clave es requerida</small>
+          <small *ngIf="passMinLen">Minimo 6 caracteres</small>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Tipo Usuario</label>
+               <select class="form-control form-control-select" formControlName="tipoUsuario" required>
+                  <option value="0">-- Seleccione --</option>
+                  <option value="A">Administrativo</option>
+                  <option value="M">Médico</option>
+                </select>
+                <div *ngIf="submitted && tusuarioError > 0" class="error">
+          <small *ngIf="tusuario">Selecciona el tipo de usuario</small>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-login">Login</button>
+    </form>
+
+    <div class="links">
+      <a routerLink="/user/login">Login Paciente</a>
+    </div>
+  </div>
+</div>

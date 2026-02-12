@@ -1,0 +1,80 @@
+<ngx-spinner   
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="white"
+  type="ball-scale-multiple">
+  <h2 style="color: white;">{{textSpinner}}</h2>
+</ngx-spinner>
+
+<div class="main-content">
+<div class="row">
+   <div class="col-md-12">
+      <div class="card">
+         <div class="card-body">
+             <form [formGroup]="filtrarTableForm">
+           <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Especialidad</label>
+                <select class="form-control form-control-select" formControlName="especialidad">
+                  <option value="0">-- Seleccione --</option>
+                  <option *ngFor="let item of arrayEspecialidad" [value]="item.especialidadId">
+                    {{ item.descripcion }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                
+              </div>
+            </div>
+            <div class="col-md-4" style="text-align: right !important;">
+              <div class="form-group">
+                  <button class="btn btn-info" (click)="cargarDatosActualizar()"><span class="btn-label"><i class="nc-icon nc-refresh-69"></i></span> Actualizar </button>
+                  <button class="btn btn-warning" (click)="cleanFilters()"><span class="btn-label" ><i class="nc-icon nc-simple-remove"></i></span> Limpiar </button>
+                  <button class="btn btn-light-success text-success me-1" (click)="downloadFile()"><i class="mdi mdi-download" style="font-size: 1.2em;"></i> Descargar Excel</button>
+              </div>
+            </div>
+          </div>
+        </form>
+            <div class="toolbar"></div>
+            <div id="datatable_wrapper" class="dataTables_wrapper dt-bootstrap4 table-responsive">
+               <div class="row">
+                  <div class="col-sm-12">
+                     <table cellspacing="0" class="table table-striped table-bordered dataTable" id="datatable" width="100%" role="grid" aria-describedby="datatable_info" style="width: 100%;">
+                        <thead>
+                           <tr role="row">
+                              <th class="sorting_asc" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 151px;">Nombres</th>
+                              <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 129px;">Especialidad</th>
+                              <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 129px;">Email</th>
+                              <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Date: activate to sort column ascending" style="width: 78px;">Celular</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr *ngFor="let dto of filterArray | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize"> 
+                                 <td>{{ dto.nombres }} </td>
+                                 <td>{{ dto.descEspecialidad }} </td>
+                                 <td>{{ dto.email }} </td>
+                                 <td>{{ dto.celular }}</td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-sm-12 col-md-5">
+                     <div class="dataTables_info" id="datatable_info" role="status" aria-live="polite">Mostrando 1 a 10 de {{ totfilas }} registros</div>
+                  </div>
+                  <div class="col-sm-12 col-md-7">
+                     <div class="dataTables_paginate paging_full_numbers" id="datatable_paginate" *ngIf="filterArray">
+                        <ngb-pagination [(page)]="page" [maxSize]="8" [pageSize]="pageSize" [collectionSize]="filterArray.length"></ngb-pagination>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+</div>
