@@ -60,7 +60,7 @@ export class DashboardComponent implements OnInit {
     this.validaUserLogin();
       this.getSeccionOne();
       this.chartColor = "#FFFFFF";
-
+    this.chartsTemplate();
     
   }
 
@@ -68,7 +68,7 @@ export class DashboardComponent implements OnInit {
     var cardStatsMiniLineColor = "#fff",
       cardStatsMiniDotColor = "#fff";
 
-    this.canvas = document.getElementById("chartActivity");
+    /*this.canvas = document.getElementById("chartActivity");
     this.ctx = this.canvas.getContext("2d");
 
     this.gradientStroke = this.ctx.createLinearGradient(500, 0, 100, 0);
@@ -206,12 +206,12 @@ export class DashboardComponent implements OnInit {
           ctx.fillText(txt, centerX, centerY);
         }
       }
-    });
+    });*/
 
     this.canvas = document.getElementById("chartDonut1");
     this.ctx = this.canvas.getContext("2d");
 
-    myChart = new Chart(this.ctx, {
+    var myChart = new Chart(this.ctx, {
       type: 'pie',
       data: {
         labels: [1, 2],
@@ -468,7 +468,7 @@ export class DashboardComponent implements OnInit {
 
 
 
-    this.canvas = document.getElementById("activeUsers");
+    /*this.canvas = document.getElementById("activeUsers");
     this.ctx = this.canvas.getContext("2d");
 
     this.gradientStroke = this.ctx.createLinearGradient(500, 0, 100, 0);
@@ -720,7 +720,7 @@ export class DashboardComponent implements OnInit {
                 normalizeFunction: 'polynomial'
             }]
         },
-    });
+    });*/
   }
 
   async getSeccionOne(){
