@@ -87,6 +87,7 @@ export class AtencionCitaComponent implements OnInit{
     viewCardsReload(){
         this.breadcumb="";
         this.flagViewCards.emit("reload");
+        this.ngOnInit();
     }
 
     inicializarFormularios(): void {
