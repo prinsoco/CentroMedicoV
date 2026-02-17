@@ -3,6 +3,11 @@ export class SeccionOne {
     especialidades?: number;
     citasAsistidas?: number;
     pacientes?: number;
+    suscriptores?:number;
+    tasaAsistencia?:number;
+    tasaInasistencia?:number;
+    especialidadAsis?:string;
+    especialidadMasPedida?:number;
 }
 
 

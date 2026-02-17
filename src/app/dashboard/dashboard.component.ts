@@ -33,6 +33,12 @@ export class DashboardComponent implements OnInit {
   data: SeccionOne;
   tipoPerfil?: string;
   userId?: number;
+  TasaAsistencia: number;
+  EspecialidadAsis: string;
+  TasaInasistencia: number;
+  Suscriptores: number;
+  EspecialidadMasPedida: number;
+
 
   constructor(private apiService: DashBoardServices, private router: Router)
   {}
@@ -60,7 +66,7 @@ export class DashboardComponent implements OnInit {
     this.validaUserLogin();
       this.getSeccionOne();
       this.chartColor = "#FFFFFF";
-    this.chartsTemplate();
+    
     
   }
 
@@ -216,12 +222,12 @@ export class DashboardComponent implements OnInit {
       data: {
         labels: [1, 2],
         datasets: [{
-          label: "Emails",
+          label: "Tasa Asistencia",
           pointRadius: 0,
           pointHoverRadius: 0,
           backgroundColor: ['#4acccd', '#f4f3ef'],
           borderWidth: 0,
-          data: [60, 40]
+          data: [this.TasaAsistencia, 100]
         }]
       },
       options: {
@@ -280,12 +286,12 @@ export class DashboardComponent implements OnInit {
       data: {
         labels: [1, 2],
         datasets: [{
-          label: "Emails",
+          label: "Tasa Inasistencia",
           pointRadius: 0,
           pointHoverRadius: 0,
           backgroundColor: ['#fcc468', '#f4f3ef'],
           borderWidth: 0,
-          data: [34, 66]
+          data: [this.TasaInasistencia, 100]
         }]
       },
       options: {
@@ -344,12 +350,12 @@ export class DashboardComponent implements OnInit {
       data: {
         labels: [1, 2],
         datasets: [{
-          label: "Emails",
+          label: "Suscriptores",
           pointRadius: 0,
           pointHoverRadius: 0,
           backgroundColor: ['#f17e5d', '#f4f3ef'],
           borderWidth: 0,
-          data: [80, 20]
+          data: [this.Suscriptores, 100]
         }]
       },
       options: {
@@ -414,7 +420,7 @@ export class DashboardComponent implements OnInit {
           pointHoverRadius: 0,
           backgroundColor: ['#66615b', '#f4f3ef'],
           borderWidth: 0,
-          data: [11, 89]
+          data: [this.EspecialidadMasPedida, this.toCitasAsistidas]
         }]
       },
       options: {
@@ -736,6 +742,12 @@ export class DashboardComponent implements OnInit {
               this.totMedico = this.data.medicos;
               this.toCitasAsistidas = this.data.citasAsistidas;
               this.totPaciente = this.data.pacientes;
+              this.EspecialidadAsis=this.data.especialidadAsis;
+              this.Suscriptores=this.data.suscriptores;
+              this.TasaInasistencia=this.data.tasaInasistencia;
+              this.TasaAsistencia=this.data.tasaAsistencia;
+              this.EspecialidadMasPedida=this.data.especialidadMasPedida;
+              this.chartsTemplate();
             }
         } catch (error) {
             console.log(error);

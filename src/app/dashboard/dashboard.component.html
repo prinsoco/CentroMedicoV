@@ -479,8 +479,8 @@
     <div class="col-md-3">
       <div class="card ">
         <div class="card-header ">
-          <h5 class="card-title">Estadisticas Email</h5>
-          <p class="card-category">Rendimiento e la notificaciones</p>
+          <h5 class="card-title">Tasa de Asistencia</h5>
+          <p class="card-category">Rendimiento {{ TasaAsistencia }} %</p>
         </div>
         <div class="card-body ">
           <canvas id="chartDonut1" class="ct-chart ct-perfect-fourth" width="456" height="300"></canvas>
@@ -491,7 +491,7 @@
           </div>
           <hr>
           <div class="stats">
-            <i class="fa fa-calendar"></i> Numero de email enviados
+            <i class="fa fa-calendar"></i> Mide la confiabilidad de los pacientes en presentarse.
           </div>
         </div>
       </div>
@@ -499,8 +499,8 @@
     <div class="col-md-3">
       <div class="card ">
         <div class="card-header ">
-          <h5 class="card-title">Días frecuentes</h5>
-          <p class="card-category">Total de citas en la semana</p>
+          <h5 class="card-title">Tasa Inasistencia</h5>
+          <p class="card-category">Rendimiento {{ TasaInasistencia }} %</p>
         </div>
         <div class="card-body ">
           <canvas id="chartDonut2" class="ct-chart ct-perfect-fourth" width="456" height="300"></canvas>
@@ -511,27 +511,7 @@
           </div>
           <hr>
           <div class="stats">
-            <i class="fa fa-check"></i> Analisis semanal
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="card ">
-        <div class="card-header ">
-          <h5 class="card-title">Citas</h5>
-          <p class="card-category">Total citas</p>
-        </div>
-        <div class="card-body ">
-          <canvas id="chartDonut3" class="ct-chart ct-perfect-fourth" width="456" height="300"></canvas>
-        </div>
-        <div class="card-footer ">
-          <div class="legend">
-            <i class="fa fa-circle text-danger"></i> General
-          </div>
-          <hr>
-          <div class="stats">
-            <i class="fa fa-clock-o"></i> Actualizado
+            <i class="fa fa-check"></i> Implica pérdida de ingresos y tiempo médico.
           </div>
         </div>
       </div>
@@ -540,18 +520,38 @@
       <div class="card ">
         <div class="card-header ">
           <h5 class="card-title">Suscriptores</h5>
-          <p class="card-category">Usuarios</p>
+          <p class="card-category">Rendimiento {{ Suscriptores }} %</p>
+        </div>
+        <div class="card-body ">
+          <canvas id="chartDonut3" class="ct-chart ct-perfect-fourth" width="456" height="300"></canvas>
+        </div>
+        <div class="card-footer ">
+          <div class="legend">
+            <i class="fa fa-circle text-danger"></i> Suscriptores
+          </div>
+          <hr>
+          <div class="stats">
+            <i class="fa fa-clock-o"></i> Personas que agendaron cita via Chatbot
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card ">
+        <div class="card-header ">
+          <h5 class="card-title">Especialidad Más Pedida</h5>
+          <p class="card-category">Rendimiento {{ EspecialidadMasPedida }} %</p>
         </div>
         <div class="card-body ">
           <canvas id="chartDonut4" class="ct-chart ct-perfect-fourth" width="456" height="300"></canvas>
         </div>
         <div class="card-footer ">
           <div class="legend">
-            <i class="fa fa-circle text-secondary"></i> Terminada
+            <i class="fa fa-circle text-secondary"></i> {{EspecialidadAsis }}
           </div>
           <hr>
           <div class="stats">
-            <i class="fa fa-history"></i> Total usuarios
+            <i class="fa fa-history"></i> Especialidades que agendaron 
           </div>
         </div>
       </div>

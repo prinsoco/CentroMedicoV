@@ -118,7 +118,7 @@ export class RegistroComponent implements OnInit {
         this.passRequerido = false;
       }
 
-      if(errorPass.minlength != undefined && errorPass.minlength.actualLength < 6){
+      if(errorPass.minlength != undefined && errorPass.minlength.actualLength < 8){
         this.passMinLen = true;
       }
       else{
