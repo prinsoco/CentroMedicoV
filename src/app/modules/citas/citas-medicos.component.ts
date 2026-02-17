@@ -693,6 +693,10 @@ export class CalendarioComponent implements OnInit {
     console.log(doctorId);
     console.log(fecha);
 
+    if((this.tipoPerfil == "M" || this.tipoPerfil == "U") && (this.pacienteSeleccionados == null || this.pacienteSeleccionados == undefined || this.pacienteSeleccionados?.length == 0)){
+      this.classGeneral.showNotificationNotify(3, "top","right", "Debe seleccionar un paciente");
+    }
+
     var infoMedico: InfoModal = {
         descEspecialidad: especialidad,
         especialidadId: especialidadId,

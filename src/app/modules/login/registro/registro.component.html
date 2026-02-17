@@ -13,7 +13,7 @@
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
                <input type="text" formControlName="nombre" placeholder="Nombres" />
-        <div *ngIf="submitted && emailError > 0" class="error">
+        <div *ngIf="submitted && nombreError > 0" class="error">
           <small *ngIf="nombreRequerido">Nombre es requerido</small>
         </div>
       </div>
