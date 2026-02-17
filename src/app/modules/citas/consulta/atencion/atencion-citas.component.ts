@@ -7,7 +7,7 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { forkJoin, Observable, of } from 'rxjs';
-
+import Swal from 'sweetalert2';
 import { Cita } from '../../../../interfaces/citas.interface';
 import { PacienteServices } from '../../../../services/paciente.service';
 import { UtilsGeneral } from '../../../../shared/utils/utils-general';
@@ -44,7 +44,8 @@ export class AtencionCitaComponent implements OnInit{
     totFilasHistorial: number;
     pacienteForm!: FormGroup;
     recetaForm!: FormGroup;
-
+    page: number = 1;
+    pageSize: number = 10;
     historialClinico: string = '';
     tipoPerfil?: string;
     userId?: number;
@@ -58,7 +59,7 @@ export class AtencionCitaComponent implements OnInit{
       private apiSerPaciente: PacienteServices,
       private apiSerCita: CitasServices,
       private apiSerHistorial: HistorialServices,
-      private classGeneral: UtilsGeneral,
+      public classGeneral: UtilsGeneral,
       private spinner : NgxSpinnerService
     ) {
         
@@ -219,7 +220,7 @@ export class AtencionCitaComponent implements OnInit{
     this.historialCargado = false;
 
     var filtros: FiltroHistorial = {
-        citaId: this.data.citaId+"",
+        citaId: "0",
         medicoId: this.data.medicoId+"",
         pacienteId: this.data.pacienteId+""
     }
@@ -240,19 +241,6 @@ export class AtencionCitaComponent implements OnInit{
         this.historialCargado = true;
       }
     });
-    /*.toPromise()
-          .then(res => {
-              this.spinner.hide();
-
-              this.dataArrayHistorial = res.data ?? [];
-              this.arrayDataH = this.dataArrayHistorial;
-              this.totFilasHistorial = this.arrayDataH.length;
-              this.historialCargado = true;
-          })
-          .catch((err) => {
-            this.spinner.hide();
-              this.classGeneral.showNotification(4, "top", "right", "Error al consultar el historial clínico");
-          });*/
   }
 
   async cargarDatosPaciente() {
@@ -291,12 +279,8 @@ export class AtencionCitaComponent implements OnInit{
       configHC: of(this.getHistorialClinico()),
       paciente: this.apiSerPaciente.getById(this.data?.pacienteId ?? 0)//,
      // historialClinico: this.apiSerHistorial.getAll(filtros)
-    }).subscribe(({ paciente }) => {
+    }).subscribe(({ paciente, configUL, configHC, configGHR, configEC, configIF }) => {
       this.dataPaciente = paciente?.data ?? null;
-
-      /*this.dataArrayHistorial = historialClinico.data ?? [];
-      this.arrayDataH = this.dataArrayHistorial;
-      this.totFilasHistorial = this.arrayDataH.length;*/
 
       //se cierra el cargando
       this.spinner.hide();
@@ -321,7 +305,7 @@ export class AtencionCitaComponent implements OnInit{
   }
 
   mostrarCaracteres(texto: string): string{
-    return this.classGeneral.recortarTexto(texto , 100);
+    return this.classGeneral.recortarTexto(texto , 200);
   }
 
   regresaFechaLocal(fechaCita: string): string{
@@ -366,6 +350,42 @@ export class AtencionCitaComponent implements OnInit{
     console.log(fecha);
 
     return fecha;
+  }
+
+  generarTitulo(dto: HistorialClinico){
+      return this.classGeneral.fechaLocal(dto.fechaCreacion, true) + ": " + dto.especialidad + " - " + dto.medico
+  }
+
+  abrirModal(dto: HistorialClinico){
+    const htmlContenido = `
+    <div class="timeline-panel" style="text-align:left">
+      <div class="timeline-heading">
+        <span class="badge badge-success" style="font-size:14px">
+          ${dto.especialidad} - ${dto.medico}
+        </span>
+      </div>
+
+      <div class="timeline-body" style="margin-top:10px">
+        <p><strong>Diagnóstico:</strong> ${dto.diagnostico}</p>
+        <p><strong>Receta:</strong> ${dto.receta ?? 'N/A'}</p>
+      </div>
+
+      <hr />
+
+    </div>
+  `;
+
+    Swal.fire({
+        title: '📋 Visualizar Historial',
+        html: htmlContenido,   // 👈 AQUÍ VA EL HTML
+        icon: 'info',
+        width: '950px',
+        scrollbarPadding: true,
+        showCancelButton: false,
+        confirmButtonText: 'Cerrar',
+        reverseButtons: true,
+        focusConfirm: false
+      });
   }
 
 }

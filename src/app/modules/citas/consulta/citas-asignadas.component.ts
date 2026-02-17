@@ -284,6 +284,13 @@ export class CitasAsignadasComponent implements OnInit{
   //#region Métodos para llamar a la pantalla de atención para citas
   public  showForm(input: Cita | null, action: string){
           this.data = input;
+
+          //validamos que la fecha de la cita se igual que la del sistema
+          if(!this.classGeneral.validarFecha(this.data.fechaCita?.toString())){
+                this.classGeneral.showNotificationNotify(3, "top","right", "Solo se puede atender las citas del día");
+                return;
+          }
+
           this.textSpinner = "Procesando...";
           switch (action) {
             case 'atender':

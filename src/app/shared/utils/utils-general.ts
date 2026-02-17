@@ -50,7 +50,7 @@ declare var $:any;
     return regex.test(email.trim());
   }
 
-  public fechaLocal(date: Date | string): string {
+  public fechaLocal(date: Date | string, formato?: boolean): string {
     const d = new Date(date);
     console.log(d);
     const y = d.getFullYear();
@@ -59,6 +59,12 @@ declare var $:any;
     console.log(m);
     const day = String(d.getDate()).padStart(2, '0');
     console.log(day);
+
+    if(formato)
+    {
+      return `${day}/${m}/${y}`;
+    }
+
     return `${y}-${m}-${day}`;
   }
 
@@ -247,13 +253,28 @@ public colorCalender(): string{
   }
 
   public recortarTexto(texto: string, limite: number = 100): string {
-  if (!texto) {
-    return '';
+    if (!texto) {
+      return '';
+    }
+
+    return texto.length > limite
+      ? texto.substring(0, limite) + '...'
+      : texto;
   }
 
-  return texto.length > limite
-    ? texto.substring(0, limite) + '...'
-    : texto;
-}
+   public validarFecha(fechaCita: string): boolean{
+      const hoy = this.limpiarHora(new Date());
+      const cita = this.limpiarHora(new Date(fechaCita));
+
+      if (cita == hoy) {
+        return true;
+      }
+
+      return false;
+  }
+
+  public limpiarHora(fecha: Date): Date {
+        return new Date(fecha.getFullYear(), fecha.getMonth(), fecha.getDate());
+      }
 
 }
