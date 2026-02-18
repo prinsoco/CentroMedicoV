@@ -55,6 +55,13 @@ import { FiltroExcel } from "../interfaces/utils.interface";
         .set('user', user); 
         return this.http.get<IResponseDataPaciente<Paciente>>(`${this.prefix}getByUser`, {headers: headers});
     }
+    public getByEmail(user: string) {
+    
+        const headers = new HttpHeaders().set('Authorization', `Bearer ` + this.token)
+        .set('user', user); 
+        return this.http.get<IResponseDataPaciente<Paciente>>(`${this.prefix}getByUser`, {headers: headers});
+    }
+
 
     public getDownload(input: FiltroExcel){
             const headers = new HttpHeaders().set('Ahthorization', `Bearer ` + this.token);

@@ -42,6 +42,7 @@ export class ReporteCitasComponent implements OnInit{
     userId?: number;
     user?: string;
     especialidad?:number;
+    TipoReporte?:string;
 
 
     constructor(private apiService: CitasServices,
@@ -75,10 +76,12 @@ export class ReporteCitasComponent implements OnInit{
             {
               especialidadId= this.tipoPerfil=="M"? this.especialidad +"":"0";
             }
+            
             if(medicoId== null || medicoId == undefined)
             {
               medicoId= this.tipoPerfil=="M"? this.userId+"":"0";
             }
+            
             var filtro:FiltroExcel = {
                 
                 especialidadId: especialidadId,     
@@ -125,9 +128,10 @@ export class ReporteCitasComponent implements OnInit{
               }
               else
               {
-                this.filtrarTableForm.controls["especialidad"].setValue( this.especialidad+"");
+    
                 if(this.tipoPerfil=="M")
                 {
+                    this.filtrarTableForm.controls["especialidad"].setValue( this.especialidad+"");
                     this.cargarMedicos(this.especialidad+"");
                     this.filtrarTableForm.controls["medico"].setValue( this.userId+"");
                     this.filtrarTableForm.get('especialidad')?.disable();
@@ -199,8 +203,9 @@ export class ReporteCitasComponent implements OnInit{
         
     });
 
-    this.filtrarTableForm.controls['especialidad'].setValue("0");
-    this.filtrarTableForm.controls['medico'].setValue("0");
+    this.filtrarTableForm.controls["especialidad"].setValue('0');
+    this.filtrarTableForm.controls["medico"].setValue('0');
+    
   }
 
     //#endregion: seccion editar perfil

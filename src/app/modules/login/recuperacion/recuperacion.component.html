@@ -1,0 +1,57 @@
+<ngx-spinner   
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="white"
+  type="ball-scale-multiple">
+  <h2 style="color: white;">{{textSpinner}}</h2>
+</ngx-spinner>
+
+<div class="login-container">
+  <div class="login-card">
+    <div *ngIf="!registroExitoso">
+    <h3 class="title">Recuperar Contraseña</h3>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Tipo Usuario</label>
+               <select class="form-control form-control-select" formControlName="tipoUsuario" required>
+                  <option value="0">-- Seleccione --</option>
+                  <option value="P">Paciente</option>
+                  <option value="A">Administrativo</option>
+                  <option value="M">Médico</option>
+                </select>
+                <div *ngIf="submitted && tusuarioError > 0" class="error">
+          <small *ngIf="tusuario">Selecciona el tipo de usuario</small>
+        </div>
+      </div>
+      <div class="form-group">
+               <input type="text" formControlName="emailuser" placeholder="Correo" />
+        <div *ngIf="submitted && emailError > 0" class="error">
+          <small *ngIf="emailRequerido">Correo</small>
+        </div>
+      </div>
+
+      
+      <button type="submit" class="btn-login">Recuperar</button>
+    </form>
+
+    </div>
+
+    <div *ngIf="registroExitoso">
+      <h2 class="title" style="text-align: center;margin-bottom: 1rem;">Envío Correo</h2>
+
+      <div class="confirmation-message" style="text-align: center;margin: 20px 0;color: #555;">
+        <p style="margin-bottom: 10px;">
+          ✅ <strong>Te hemos enviado un correo electrónico con las instrucciones.</strong>
+        </p>
+        
+        <p class="note" style="font-size: 13px;color: #888;">
+          📧 Si no encuentras el correo, revisa la bandeja de spam.
+        </p>
+      </div>
+
+      <div class="links">
+        <a routerLink="/user/login">Ir al Login</a>
+      </div>
+    </div>
+  </div>
+</div>

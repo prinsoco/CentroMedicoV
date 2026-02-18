@@ -35,6 +35,7 @@ import { ReporteMedicoComponent } from './reporte/reportemedico/reporte-medico.c
 import { ReportePacienteComponent } from './reporte/reportepaciente/reporte-pacientes.component';
 import { AsignacionesComponent } from './menu/asignaciones/asignaciones.component';
 
+
 @NgModule({
     imports: [
         CommonModule,
@@ -78,6 +79,7 @@ import { AsignacionesComponent } from './menu/asignaciones/asignaciones.componen
         ReporteMedicoComponent,
         ReportePacienteComponent,
         AsignacionesComponent
+        
     ]
 })
 
