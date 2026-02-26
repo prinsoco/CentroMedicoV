@@ -30,3 +30,8 @@ export class Response{
 export class FilterString{
     codigo?: string;
 }
+
+export class FiltroRecuperar{
+    correo?: string;
+    tipo?: string;
+}

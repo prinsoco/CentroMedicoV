@@ -9,17 +9,19 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { RegistroComponent } from './registro/registro.component';
 import { InfoRegistroComponent } from './informativo/inforegistro.component';
 import { recuperacionComponent } from './recuperacion/recuperacion.component';
+import { RecuperacionAdminComponent } from './recuperacion/recuperacionadmin.component';
 
 const routes: Routes = [
   { path: 'user/login', component: LoginComponent, title: 'Login'  },
   { path: 'admin/login', component: LoginAdminComponent, title: 'LoginAdmin'  },
   { path: 'pages/registro', component: RegistroComponent, title: 'Registro'  },
   { path: '/inforegistro', component: InfoRegistroComponent, title: 'Registro Exitoso'  },
-  { path: 'pages/recuperacion', component: recuperacionComponent, title: 'Recuperación Exitosa'  }
+  { path: 'pages/recuperacion', component: recuperacionComponent, title: 'Recuperación Exitosa'  },
+  { path: 'pages/recuperacionadmin', component: RecuperacionAdminComponent, title: 'Recuperación Exitosa'  }
 ];
 
 @NgModule({
-  declarations: [LoginComponent, LoginAdminComponent, RegistroComponent, InfoRegistroComponent,recuperacionComponent],
+  declarations: [LoginComponent, LoginAdminComponent, RegistroComponent, InfoRegistroComponent,recuperacionComponent, RecuperacionAdminComponent],
   imports: [
     CommonModule,
     FormsModule,

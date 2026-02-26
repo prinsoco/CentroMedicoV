@@ -159,4 +159,11 @@ export class LoginComponent implements OnInit {
   reiniciarVariables(){
 
   }
+
+  recuperarLogin(){
+    const tokenPaciente = "Paciente:LoginPaciente";
+    const tokenEncrypt = this.classGeneral.encrypt(tokenPaciente);
+
+    this.router.navigate(["/pages/recuperacion?token=" + tokenEncrypt]);
+  }
 }

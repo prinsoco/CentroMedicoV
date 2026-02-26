@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { environment } from '../../environments/environment';
-import { Notificaciones, IResponseDataNoti, FiltroNoti } from "../interfaces/notificacion.interface";
+import { Notificaciones, IResponseDataNoti, FiltroNoti, FiltroRecuperar } from "../interfaces/notificacion.interface";
 
 @Injectable({
     providedIn: 'root'
@@ -37,5 +37,12 @@ import { Notificaciones, IResponseDataNoti, FiltroNoti } from "../interfaces/not
 
         const headers = new HttpHeaders().set('Authorization', `Bearer ` + this.token); 
         return this.http.get<IResponseDataNoti<Notificaciones[]>>(`${this.prefix}getById/${id}`, {headers: headers});
+    }
+
+    public recuperarclave(input: FiltroRecuperar){
+        const headers = new HttpHeaders().set('Ahthorization', `Bearer ` + this.token);
+        let url_ = `${this.prefix}recupera_clave` ;
+
+        return this.http.post(url_, input, {headers: headers});
     }
 }

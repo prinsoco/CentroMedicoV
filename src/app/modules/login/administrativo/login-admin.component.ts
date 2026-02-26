@@ -181,4 +181,11 @@ export class LoginAdminComponent implements OnInit {
       // Ej: validar rol, luego redirigir:
       // this.router.navigate(['/dashboard']);
     }
+
+    recuperarLogin(){
+    const tokenPaciente = "Admin:LoginAdmin";
+    const tokenEncrypt = this.classGeneral.encrypt(tokenPaciente);
+
+    this.router.navigate(["/pages/recuperacion?token=" + tokenEncrypt]);
+  }
 }

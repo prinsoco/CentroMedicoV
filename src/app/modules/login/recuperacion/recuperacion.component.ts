@@ -11,6 +11,9 @@ import { PacienteServices } from '../../../services/paciente.service';
 import { MedicoServices } from '../../../services/medico.service';
 import { UsuarioServices } from '../../../services/usuario.service';
 import { Paciente } from 'app/interfaces/paciente.interface';
+import { ActivatedRoute } from '@angular/router';
+import { FiltroRecuperar } from 'app/interfaces/notificacion.interface';
+import { NotificacionesServices } from '../../../services/notificacion.service';
 
 @Component({
   selector: 'app-recuperacion',
@@ -25,16 +28,12 @@ export class recuperacionComponent implements OnInit {
   emailError: number;
   textSpinner = "Cargando...";
   registroExitoso: boolean;
-  tusuario: boolean;
-  tusuarioError: number;
 
 
   constructor(private fb: FormBuilder,
-    private apiService: PacienteServices,
-    private apiServiceM: MedicoServices,
-    private apiServiceA: UsuarioServices,
-    private apiServAut: AutorizacionServices, 
+    private apiService: NotificacionesServices,
     private router: Router,
+    private route: ActivatedRoute,
     private toastr: ToastrService,
     private spinner : NgxSpinnerService,
     private classGeneral: UtilsGeneral
@@ -42,25 +41,22 @@ export class recuperacionComponent implements OnInit {
     this.emailRequerido = false;
     this.emailError = 0;
     this.registroExitoso = false;
-     this.tusuario = false;
-    this.tusuarioError = 0;
   }
 
   ngOnInit(): void {
     //this.textSpinner = "Generando recuperación...";
-    // this.iniciaForm();
+    this.iniciaForm();
   }
 
+  //#region Recuperación contraseña paciente
   iniciaForm(){
      this.loginForm = this.fb.group({
-      tipoUsuario: ['', [Validators.required]],
       emailuser: ['', [Validators.required, Validators.email]],
     });
   }
 
   validarFrom() {
     const emailPass = this.loginForm.controls["emailuser"].errors;
-    const tipoUsuario = this.loginForm.controls["tipoUsuario"].value;
  
     if(emailPass != null && emailPass != undefined){
       this.emailError = 1;
@@ -75,49 +71,48 @@ export class recuperacionComponent implements OnInit {
     else{
       this.emailError = 0;
     }
-    if(tipoUsuario === "0"){
-      this.tusuario = true;
-      this.tusuarioError = 1;
-    }
-    else{
-      this.tusuario = false;
-      this.tusuarioError = 0;
-    }
-
   }
 
-  async onSubmit() {
-    this.spinner.show();
-    this.submitted = true;
+  async onSubmit(){
     if (!this.loginForm.invalid) {
-      
-    /*  if(this.loginForm.controls['tipoUsuario'].value=="P")
-      {
-        this.apiService.getByUser(this.loginForm.controls['usuario'].value).subscribe(resp => {
-          if (resp != null){
-            this.ValidacionUsuario = "";
-            this.InsertarPaciente();
-          }
-          else{
-            this.ValidacionUsuario = "Usuario ya existe asignado a otro Paciente";
-          }
-        });
-      }*/
-      /*var crear: Paciente = {
-        email: this.loginForm.controls["emailuser"].value,
+      var filtro: FiltroRecuperar = {
+        correo: this.loginForm.controls["emailuser"].value,
+        tipo: "P"
       }
-      */
-      
-      
 
+      var resp = await this.apiService.recuperarclave(filtro).toPromise()
+      .then(res => {
+        if(res && res["id"] == "-1"){
+                this.classGeneral.showNotificationNotify(3, "top", "right", res["message"]);//"success", );
+                this.spinner.hide();
+            }
+            else if(res && parseInt(res["id"]+"") > 0){
+              this.spinner.hide();
+                this.classGeneral.showNotificationNotify(2, "top", "right", res["message"]);//"success", );
+                this.registroExitoso = true;
+            }
+      })
+      .catch((err) => {
+        this.invalidLogin = true;
+        this.spinner.hide();
+        if(err.status == '504'){
+          this.classGeneral.showNotificationNotify(4, "top","right", "Sistema no disponible");
+          //this.showNotification(4, "top","right", "Sistema no disponible");
+        }else if(err.status == 0){
+          this.classGeneral.showNotificationNotify(3, "top","right", "Credenciales no válidas");
+          //this.showNotification(3, "top","right", "Credenciales no válidas");
+        }
+        else{
+          this.classGeneral.showNotificationNotify(3, "top","right", "Error en autenticacion");
+          //this.showNotification(3, "top","right", "Error en autenticacion");
+        }
+      });
     }
     else{
-      this.spinner.hide();
       this.validarFrom();
+      this.spinner.hide();
     }
-
-    console.log('Login data:', this.loginForm.value);
   }
-
+  //#endregion
   
 }

@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LoginAut } from "../../interfaces/login.interface";
 import { ToastrService } from "ngx-toastr";
 import { Router } from '@angular/router';
+import * as CryptoJS from 'crypto-js';
 
 declare var $:any;
 
@@ -15,6 +16,7 @@ declare var $:any;
   export class UtilsGeneral {
     datoLogin: LoginAut;
     tColor?: string;
+    private secretKey = 'Pruebas123456';
 
     constructor(private route: ActivatedRoute,
       private toastr: ToastrService,
@@ -276,5 +278,14 @@ public colorCalender(): string{
   public limpiarHora(fecha: Date): Date {
         return new Date(fecha.getFullYear(), fecha.getMonth(), fecha.getDate());
       }
+
+  encrypt(value: string): string {
+    return CryptoJS.AES.encrypt(value, this.secretKey).toString();
+  }
+
+  decrypt(textToDecrypt: string): string {
+    return CryptoJS.AES.decrypt(textToDecrypt, this.secretKey)
+      .toString(CryptoJS.enc.Utf8);
+  }
 
 }

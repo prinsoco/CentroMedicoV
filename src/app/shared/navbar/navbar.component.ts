@@ -24,6 +24,7 @@ export class NavbarComponent implements OnInit{
     private _router: Subscription;
     public open: boolean = false;
     userName?: string;
+    urlActual?: string;
 
     @ViewChild("navbar-cmp", {static: false}) button;
 
@@ -34,6 +35,9 @@ export class NavbarComponent implements OnInit{
     }
 
     ngOnInit(){
+        this.urlActual = this.router.url;
+        console.log(this.urlActual);
+
         this.validaUserLogin();
         this.listTitles = ROUTES.filter(listTitle => listTitle);
 
@@ -147,17 +151,22 @@ export class NavbarComponent implements OnInit{
     }
 
     validaUserLogin(){
-        const usuario = localStorage.getItem('loginUsuario');
-        const perfil = localStorage.getItem('loginPerfil');
-        const time = localStorage.getItem('time');
-
-        if(usuario && perfil){
-            this.userName = usuario;
-            console.log("Time: " + time);
-            this.validarSesionLogin(time, perfil);
+        if(this.urlActual.includes("pages/recuperacion")){
+            return;
         }
         else{
-          this.router.navigate(["/user/login"]);
+            const usuario = localStorage.getItem('loginUsuario');
+            const perfil = localStorage.getItem('loginPerfil');
+            const time = localStorage.getItem('time');
+
+            if(usuario && perfil){
+                this.userName = usuario;
+                console.log("Time: " + time);
+                this.validarSesionLogin(time, perfil);
+            }
+            else{
+            this.router.navigate(["/user/login"]);
+            }
         }
       }
 
