@@ -16,11 +16,11 @@ import { FiltroRecuperar } from '../../../interfaces/notificacion.interface';
 import { NotificacionesServices } from 'app/services/notificacion.service';
 
 @Component({
-  selector: 'app-recuperacionadmin',
-  templateUrl: './recuperacionadmin.component.html',
-  styleUrls: ['./recuperacionadmin.component.scss']
+  selector: 'app-claveadmin',
+  templateUrl: './claveadmin.component.html',
+  styleUrls: ['./claveadmin.component.scss']
 })
-export class RecuperacionAdminComponent implements OnInit {
+export class ClaveAdminComponent implements OnInit {
   loginForm: FormGroup;
   submitted = false;
   invalidLogin: boolean;
@@ -28,6 +28,7 @@ export class RecuperacionAdminComponent implements OnInit {
   emailError: number;
   textSpinner = "Cargando...";
   registroExitoso: boolean;
+  token: string;
 
 
   constructor(private fb: FormBuilder,
@@ -46,52 +47,44 @@ export class RecuperacionAdminComponent implements OnInit {
   ngOnInit(): void {
     //this.textSpinner = "Generando recuperación...";
     this.iniciaForm();
+    this.route.queryParams
+    .subscribe(params => {
+      this.token = params['token'];
+      console.log('Token:',this.token);
+    });
   }
 
   //#region Recuperación contraseña paciente
   iniciaForm(){
      this.loginForm = this.fb.group({
       tipoUsuario: ['', [Validators.required]],
-      emailuser: ['', [Validators.required, Validators.email]]
+      clave: ['', [Validators.required]]
     });
 
     this.loginForm.controls["tipoUsuario"].setValue("0");
   }
 
-  validarFrom() {
-    const emailPass = this.loginForm.controls["emailuser"].errors;
- 
-    if(emailPass != null && emailPass != undefined){
-      this.emailError = 1;
-
-      if(emailPass.required != undefined && emailPass.required){
-        this.emailRequerido = true;
-      }
-      else{
-        this.emailRequerido = false;
-      }
-    }
-    else{
-      this.emailError = 0;
-    }
-  }
-
   async onSubmit(){
-    
-    if (!this.loginForm.invalid) {
 
       const tipousu = this.loginForm.controls["tipoUsuario"].value;
+      const clave = this.loginForm.controls["clave"].value;
       if(tipousu == "0")
       {
         this.classGeneral.showNotificationNotify(3, "top","right", "Debe seleccionar el tipo de usuario");
         return;
       }
 
+      if(!clave)
+      {
+        this.classGeneral.showNotificationNotify(3, "top","right", "Ingrese la clave");
+        return;
+      }
+
           var filtro: FiltroRecuperar = {
-            correo: this.loginForm.controls["emailuser"].value,
+            correo: "",
             tipo: tipousu,
-            clave: "",
-            token: ""
+            token: this.token,
+            clave: clave
           }
     
           var resp = await this.apiService.recuperarclave(filtro).toPromise()
@@ -121,13 +114,6 @@ export class RecuperacionAdminComponent implements OnInit {
               //this.showNotification(3, "top","right", "Error en autenticacion");
             }
           });
-        }
-        else{
-          this.validarFrom();
-          this.spinner.hide();
-        }
-
-
   }
   //#endregion
   

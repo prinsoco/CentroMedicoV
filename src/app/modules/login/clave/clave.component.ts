@@ -16,11 +16,11 @@ import { FiltroRecuperar } from 'app/interfaces/notificacion.interface';
 import { NotificacionesServices } from '../../../services/notificacion.service';
 
 @Component({
-  selector: 'app-recuperacion',
-  templateUrl: './recuperacion.component.html',
-  styleUrls: ['./recuperacion.component.scss']
+  selector: 'app-clave',
+  templateUrl: './clave.component.html',
+  styleUrls: ['./clave.component.scss']
 })
-export class recuperacionComponent implements OnInit {
+export class ClaveComponent implements OnInit {
   loginForm: FormGroup;
   submitted = false;
   invalidLogin: boolean;
@@ -28,6 +28,7 @@ export class recuperacionComponent implements OnInit {
   emailError: number;
   textSpinner = "Cargando...";
   registroExitoso: boolean;
+  token: string;
 
 
   constructor(private fb: FormBuilder,
@@ -46,40 +47,26 @@ export class recuperacionComponent implements OnInit {
   ngOnInit(): void {
     //this.textSpinner = "Generando recuperación...";
     this.iniciaForm();
+    this.route.queryParams
+    .subscribe(params => {
+      this.token = params['token'];
+      console.log('Token:',this.token);
+    });
   }
 
   //#region Recuperación contraseña paciente
   iniciaForm(){
      this.loginForm = this.fb.group({
-      emailuser: ['', [Validators.required, Validators.email]],
+      clave: ['', [Validators.required]],
     });
   }
 
-  validarFrom() {
-    const emailPass = this.loginForm.controls["emailuser"].errors;
- 
-    if(emailPass != null && emailPass != undefined){
-      this.emailError = 1;
-
-      if(emailPass.required != undefined && emailPass.required){
-        this.emailRequerido = true;
-      }
-      else{
-        this.emailRequerido = false;
-      }
-    }
-    else{
-      this.emailError = 0;
-    }
-  }
-
   async onSubmit(){
-    if (!this.loginForm.invalid) {
       var filtro: FiltroRecuperar = {
-        correo: this.loginForm.controls["emailuser"].value,
+        correo: "",
         tipo: "P",
-        clave: "",
-        token: ""
+        token: this.token,
+        clave: this.loginForm.controls["clave"].value
       }
 
       var resp = await this.apiService.recuperarclave(filtro).toPromise()
@@ -109,11 +96,6 @@ export class recuperacionComponent implements OnInit {
           //this.showNotification(3, "top","right", "Error en autenticacion");
         }
       });
-    }
-    else{
-      this.validarFrom();
-      this.spinner.hide();
-    }
   }
   //#endregion
   

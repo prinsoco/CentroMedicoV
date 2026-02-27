@@ -10,6 +10,8 @@ import { RegistroComponent } from './registro/registro.component';
 import { InfoRegistroComponent } from './informativo/inforegistro.component';
 import { recuperacionComponent } from './recuperacion/recuperacion.component';
 import { RecuperacionAdminComponent } from './recuperacion/recuperacionadmin.component';
+import { ClaveAdminComponent } from './clave/claveadmin.component';
+import { ClaveComponent } from './clave/clave.component';
 
 const routes: Routes = [
   { path: 'user/login', component: LoginComponent, title: 'Login'  },
@@ -17,11 +19,13 @@ const routes: Routes = [
   { path: 'pages/registro', component: RegistroComponent, title: 'Registro'  },
   { path: '/inforegistro', component: InfoRegistroComponent, title: 'Registro Exitoso'  },
   { path: 'pages/recuperacion', component: recuperacionComponent, title: 'Recuperación Exitosa'  },
-  { path: 'pages/recuperacionadmin', component: RecuperacionAdminComponent, title: 'Recuperación Exitosa'  }
+  { path: 'pages/recuperacionadmin', component: RecuperacionAdminComponent, title: 'Recuperación Exitosa'  },
+  { path: 'claveadmin', component: ClaveAdminComponent, title: 'Recuperación Exitosa'  },
+  { path: 'claveuser', component: ClaveComponent, title: 'Recuperación Exitosa'  }
 ];
 
 @NgModule({
-  declarations: [LoginComponent, LoginAdminComponent, RegistroComponent, InfoRegistroComponent,recuperacionComponent, RecuperacionAdminComponent],
+  declarations: [LoginComponent, LoginAdminComponent, RegistroComponent, InfoRegistroComponent,recuperacionComponent, RecuperacionAdminComponent, ClaveAdminComponent, ClaveComponent],
   imports: [
     CommonModule,
     FormsModule,

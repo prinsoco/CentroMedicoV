@@ -34,4 +34,6 @@ export class FilterString{
 export class FiltroRecuperar{
     correo?: string;
     tipo?: string;
+    token?: string;
+    clave?: string;
 }

@@ -1,0 +1,42 @@
+<ngx-spinner   
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="white"
+  type="ball-scale-multiple">
+  <h2 style="color: white;">{{textSpinner}}</h2>
+</ngx-spinner>
+
+<div class="login-container">
+  <div class="login-card">
+    <div *ngIf="!registroExitoso">
+    <h3 class="title">Ingresa Nueva Contraseña</h3>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+               <input type="password" formControlName="clave" placeholder="Contraseña" />
+      </div>
+
+      
+      <button type="submit" class="btn-login">Enviar</button>
+    </form>
+
+    </div>
+
+    <div *ngIf="registroExitoso">
+      <h2 class="title" style="text-align: center;margin-bottom: 1rem;">Envío Correo</h2>
+
+      <div class="confirmation-message" style="text-align: center;margin: 20px 0;color: #555;">
+        <p style="margin-bottom: 10px;">
+          ✅ <strong>Te hemos enviado un correo confirmando tu cambio de contraseña.</strong>
+        </p>
+        
+        <p class="note" style="font-size: 13px;color: #888;">
+          📧 Si no encuentras el correo, revisa la bandeja de spam.
+        </p>
+      </div>
+
+      <div class="links">
+        <a routerLink="/user/login">Ir al Login</a>
+      </div>
+    </div>
+  </div>
+</div>
