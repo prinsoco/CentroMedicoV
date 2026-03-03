@@ -18,6 +18,7 @@ import { ReportePacienteComponent } from './reporte/reportepaciente/reporte-paci
 import { ReporteMedicoComponent } from './reporte/reportemedico/reporte-medico.component';
 import { AsignacionesComponent } from './menu/asignaciones/asignaciones.component';
 import { AtencionCitaComponent } from './citas/consulta/atencion/atencion-citas.component';
+import { FeriadosComponent } from './horarios/list-feriados.component';
 
 export const ModulesRoutes: Routes = [{
     path: 'modulo_config',
@@ -42,6 +43,9 @@ export const ModulesRoutes: Routes = [{
     },{
         path: 'asignaciones',
         component: AsignacionesComponent
+    },{
+        path: 'feriados',
+        component: FeriadosComponent
     }]
 },{
     path: 'modulo_paciente',

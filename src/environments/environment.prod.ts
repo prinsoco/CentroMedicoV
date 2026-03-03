@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-    
+    /*
   services:{
     apiService: 'api',
     catalogoService: 'http://localhost:5005/api/Catalogo/',
@@ -19,8 +19,9 @@ export const environment = {
     authServices: 'http://localhost:5005/api',
     menuServices: 'http://localhost:5005/api/Menu/',
     asignacion: 'http://localhost:5005/api/Asignacion/',
-  }
-  /*
+    feriado: 'http://localhost:5005/api/Feriado/'
+  }*/
+  
   services:{
     apiService: 'api',
     catalogoService: 'https://api.medicare-soft.com/api/Catalogo/',
@@ -39,6 +40,7 @@ export const environment = {
     authServices: 'https://api.medicare-soft.com/api',
     menuServices: 'https://api.medicare-soft.com/api/Menu/',
     asignacion: 'https://api.medicare-soft.com/api/Asignacion/',
-  }*/
+    feriado: 'https://api.medicare-soft.com/api/Feriado/'
+  }
   
 };

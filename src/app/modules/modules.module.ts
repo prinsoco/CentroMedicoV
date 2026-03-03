@@ -34,6 +34,7 @@ import { ReporteCitasComponent } from './reporte/reportecitas/reporte-citas.comp
 import { ReporteMedicoComponent } from './reporte/reportemedico/reporte-medico.component';
 import { ReportePacienteComponent } from './reporte/reportepaciente/reporte-pacientes.component';
 import { AsignacionesComponent } from './menu/asignaciones/asignaciones.component';
+import { FeriadosComponent } from './horarios/list-feriados.component';
 
 
 @NgModule({
@@ -78,8 +79,8 @@ import { AsignacionesComponent } from './menu/asignaciones/asignaciones.componen
         ReporteCitasComponent,
         ReporteMedicoComponent,
         ReportePacienteComponent,
-        AsignacionesComponent
-        
+        AsignacionesComponent,
+        FeriadosComponent
     ]
 })
 
